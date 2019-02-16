@@ -2,10 +2,10 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/secret.config');
 
-const init = (data) => {
+const init = (data, passport) => {
     const router = Router();
 
-    const { users: { addUser, getUserById, getUserByUsername, comparePassword } } = data;
+    const { users: { addUser, getUserByUsername, comparePassword } } = data;
 
     router
         .post('/register', (req, res) => {
@@ -69,8 +69,8 @@ const init = (data) => {
             });
         })
     
-        .get('/profile', (req, res) => {
-            res.json({ mgs: 'Hello, World!'});
+        .get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
+            res.json({ user: req.user });
         });
 
 
