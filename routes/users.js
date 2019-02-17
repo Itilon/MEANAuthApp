@@ -5,7 +5,7 @@ const { secret } = require('../config/secret.config');
 const init = (data, passport) => {
     const router = Router();
 
-    const { users: { addUser, getUserByUsername, comparePassword } } = data;
+    const { users: { addUser, deleteUser, getUserByUsername, comparePassword } } = data;
 
     router
         .post('/register', (req, res) => {
@@ -64,13 +64,20 @@ const init = (data, passport) => {
                         });
                     }
 
-                    return res.json({ success: false, msg: 'Wrong password' });
+                    return res.json({ success: false, msg: 'Wrong password.' });
                 });
             });
         })
     
         .get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
             res.json({ user: req.user });
+        })
+
+        .delete('/profile/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+            const id = req.params.id;
+            deleteUser(id, () => {
+                return res.json({ sucess: true, msg: 'The user was deleted.' })
+            });
         });
 
 

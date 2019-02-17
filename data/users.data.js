@@ -11,6 +11,10 @@ const init = (User, bcrypt) => {
         })
     };
 
+    const deleteUser = (id, callback) => {
+        User.deleteOne({ _id: id}, callback);
+    }
+
     const getUserById = (id, callback) => {
         User.findById(id, callback);
     };
@@ -29,6 +33,7 @@ const init = (User, bcrypt) => {
 
     return {
         addUser,
+        deleteUser,
         getUserById,
         getUserByUsername,
         comparePassword
