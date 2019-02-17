@@ -11,7 +11,7 @@ const init = (User, bcrypt) => {
         })
     };
 
-    const getUserById = (id, calbback) => {
+    const getUserById = (id, callback) => {
         User.findById(id, callback);
     };
 
