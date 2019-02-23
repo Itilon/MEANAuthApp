@@ -76,7 +76,7 @@ const init = (data, passport) => {
         .delete('/profile/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
             const id = req.params.id;
             deleteUser(id, () => {
-                return res.json({ sucess: true, msg: 'The user was deleted.' })
+                return res.json({ success: true, msg: 'The user was deleted.' })
             });
         });
 

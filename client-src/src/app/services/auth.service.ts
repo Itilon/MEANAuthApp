@@ -23,6 +23,15 @@ export class AuthService {
     return this.http.post<any>('http://localhost:3000/users/authenticate', user, { headers: headers });
   }
 
+  deleteUser(id: String) {
+    let headers = new HttpHeaders;
+    this._loadToken();
+    headers = headers
+      .set('Content-Type', 'application/json')
+      .set('Authorization', this.authToken);
+    return this.http.delete<any>(`http://localhost:3000/users/profile/${id}`, { headers: headers });
+  }
+
   getProfile() {
     let headers = new HttpHeaders();
     this._loadToken();

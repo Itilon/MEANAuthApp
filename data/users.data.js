@@ -20,7 +20,7 @@ const init = (User, bcrypt) => {
     };
 
     const getUserByUsername = (username, callback) => {
-        User.findOne({ username}, callback);
+        User.findOne({ username }, callback);
     };
 
     const comparePassword = (candidatePassword, hash, callback) => {

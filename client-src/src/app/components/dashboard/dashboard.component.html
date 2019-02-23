@@ -1,2 +1,7 @@
-<h2 class="page-header">Dashboard</h2>
-<p>Welcome to your dashboard.</p>
+<div *ngIf="user" class="jumbotron text-center mt-2">
+    <h2 class="page-header">Dashboard</h2>
+    <p class="lead">Welcome to your dashboard, {{ user.username }}.</p>
+    <div>
+        <a [routerLink]="['/profile']" class="btn btn-primary">Go to Profile</a>
+    </div>
+</div>
