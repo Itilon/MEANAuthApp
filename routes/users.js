@@ -5,7 +5,7 @@ const { secret } = require('../config/secret.config');
 const init = (data, passport) => {
     const router = Router();
 
-    const { users: { addUser, deleteUser, getUserByUsername, comparePassword } } = data;
+    const { users: { addUser, updateUser, deleteUser, getUserById, getUserByUsername, comparePassword } } = data;
 
     router
         .post('/register', (req, res) => {
@@ -20,7 +20,7 @@ const init = (data, passport) => {
                 if (err) console.error(err.message);
 
                 if (user) {
-                    return res.json({ success: false, msg: 'This username already exists.' })
+                    return res.json({ success: false, msg: 'This username already exists.' });
                 }
 
                 addUser(newUser, (err, user) => {
@@ -28,7 +28,7 @@ const init = (data, passport) => {
                         return res.json({ success: false, msg: 'Failed to register a user.' });
                     }
     
-                    return res.json({ success: true, msg: 'The user was registered.' })
+                    return res.json({ success: true, msg: 'The user was registered.' });
                 });
 
             });
@@ -71,6 +71,31 @@ const init = (data, passport) => {
     
         .get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
             res.json({ user: req.user });
+        })
+
+        .put('/profile/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+            const id = req.params.id;
+
+            const updatedUser = {
+                name: req.body.name,
+                email: req.body.email,
+            };
+
+            getUserById(id, (err, user) => {
+                if (err) console.error(err.message);
+
+                if (!user) {
+                    return res.json({ success: false, msg: 'This user does not exist.' });
+                }
+
+                updateUser(user, updatedUser, (err, user) => {
+                    if (err) {
+                        return res.json({ success: false, msg: 'Failed to update the user.' });
+                    }
+    
+                    return res.json({ success: true, msg: 'The user was updated.' });
+                });
+            });
         })
 
         .delete('/profile/:id', passport.authenticate('jwt', { session: false }), (req, res) => {

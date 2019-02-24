@@ -11,6 +11,13 @@ const init = (User, bcrypt) => {
         })
     };
 
+    const updateUser = (user, updatedUser, callback) => {
+        const { name, email } = updatedUser;
+        user.name = name;
+        user.email = email;
+        user.save(callback);
+    };
+
     const deleteUser = (id, callback) => {
         User.deleteOne({ _id: id}, callback);
     }
@@ -33,6 +40,7 @@ const init = (User, bcrypt) => {
 
     return {
         addUser,
+        updateUser,
         deleteUser,
         getUserById,
         getUserByUsername,
